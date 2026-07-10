@@ -1,0 +1,139 @@
+{
+    "Hype Egg 3": {
+        "type": "gambling",
+        "category": "Lootboxes",
+        "base_value": 1500000,
+        "dependencies": [
+            {
+                "name": "Huge Party Squirrel",
+                "category": "Pet",
+                "multiplier": 0.0005
+            }
+        ],
+        "desc_template": "75 Rolls de itens comuns + 0.05% de chance de Huge Party Squirrel (Preço estável: {dep_0_price})."
+    },
+    "World Cup Gift": {
+        "type": "gambling",
+        "category": "Lootboxes",
+        "base_value": 15000,
+        "dependencies": [
+            {
+                "name": "Huge Soccerball Goat",
+                "category": "Pet",
+                "multiplier": 0.0005
+            }
+        ],
+        "desc_template": "4 Rolls de itens/boosters + 0.05% de chance de Huge Soccerball Goat (Preço estável: {dep_0_price})."
+    },
+    "Charm Stone": {
+        "type": "gambling",
+        "category": "Lootboxes",
+        "base_value": 978,
+        "dependencies": [
+            {
+                "name": "Glittering",
+                "category": "Charms",
+                "multiplier": 0.02
+            },
+            {
+                "name": "Overload",
+                "category": "Charms",
+                "multiplier": 0.001
+            },
+            {
+                "name": "Royalty",
+                "category": "Charms",
+                "multiplier": 0.001
+            }
+        ],
+        "desc_template": "1 Charm: ~97.8% comuns | 2% Glittering ({dep_0_price}) | 0.1% Overload ({dep_1_price}) | 0.1% Royalty ({dep_2_price})."
+    },
+    "Fantasy Key": {
+        "type": "gambling",
+        "category": "Keys",
+        "base_value": 6000,
+        "dependencies": [
+            {
+                "name": "Huge Inkwell Wisp",
+                "category": "Pet",
+                "multiplier": 5e-05
+            }
+        ],
+        "desc_template": "6 Itens comuns + 0.005% de chance de Huge Inkwell Wisp (Preço estável: {dep_0_price})."
+    },
+    "Soccer Net": {
+        "type": "buff",
+        "category": "MiscItems",
+        "base_value": 0,
+        "dependencies": [
+            {
+                "name": "World Cup Gift",
+                "category": "Lootboxes",
+                "multiplier": 0.66
+            }
+        ],
+        "desc_template": "Gera +20% eficiência de gols por 10 minutos (~0.66 presentes: {dep_0_price})."
+    },
+    "Shiny Flag": {
+        "type": "buff",
+        "category": "ZoneFlags",
+        "base_value": 10000,
+        "dependencies": [],
+        "desc_template": "Concede +100% (2x) de dano a todos os seus pets por 5 minutos no farm ativo."
+    },
+    "Rainbow Flag": {
+        "type": "buff",
+        "category": "ZoneFlags",
+        "base_value": 12000,
+        "dependencies": [],
+        "desc_template": "Concede +120% (2.2x) de dano a todos os seus pets por 5 minutos no farm ativo."
+    },
+    "Daycare Slot Voucher": {
+        "type": "voucher",
+        "category": "Vouchers",
+        "base_value": 9999999999,
+        "dependencies": [],
+        "desc_template": "Unlocks 1 slot de daycare. Gera de 3k a 5k gems diárias passivas. ROI em ~2.3 dias."
+    },
+    "XP": {
+        "type": "trap_charm",
+        "category": "Charms",
+        "base_value": 0,
+        "dependencies": [],
+        "desc_template": "Ocupa slot do Huge. Reduz o desempenho e valor de revenda do seu pet."
+    },
+    "TNT": {
+        "type": "trap_charm",
+        "category": "Charms",
+        "base_value": 0,
+        "dependencies": [],
+        "desc_template": "Spawna TNT de área, mas obstrui o slot permanentemente. Reduz valor de revenda."
+    },
+    "Diamonds": {
+        "type": "trap_charm",
+        "category": "Charms",
+        "base_value": 0,
+        "dependencies": [],
+        "desc_template": "Aumenta ganho em 10% do pet, mas o retorno real é ínfimo. Prejudica o slot do Huge."
+    },
+    "Lightning": {
+        "type": "trap_charm",
+        "category": "Charms",
+        "base_value": 0,
+        "dependencies": [],
+        "desc_template": "Spawna raios, mas obstrui o slot permanentemente. Reduz valor do Huge."
+    },
+    "Charm Chisel": {
+        "type": "tool",
+        "category": "MiscItems",
+        "base_value": 0,
+        "dependencies": [
+            {
+                "name": "Royalty",
+                "category": "Charms",
+                "multiplier": 1.0
+            }
+        ],
+        "desc_template": "Só compensa usar se o Charm salvo valer mais do que o custo do Chisel."
+    }
+}
