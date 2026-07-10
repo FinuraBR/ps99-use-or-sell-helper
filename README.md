@@ -38,7 +38,7 @@ This project is a work-in-progress. If you have better data for drop rates, enco
     ```
 2.  **Run:** Clone this repository, place `ps99-ev-analyzer.py` and `item_blueprints.json` in the same directory, and run:
     ```bash
-    python main.py
+    python ps99-ev-analyzer.py
     ```
 
 ---
