@@ -3,7 +3,7 @@ import os
 import sys
 import time
 
-APP_VERSION = "v0.2.0"
+APP_VERSION = "v0.2.1"
 
 try:
     import requests
