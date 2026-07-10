@@ -1,16 +1,21 @@
 {
-    "Hype Egg 3": {
+    "Hype Egg #3": {
         "type": "gambling",
         "category": "Lootboxes",
-        "base_value": 1500000,
+        "base_value": 0,
         "dependencies": [
             {
                 "name": "Huge Party Squirrel",
                 "category": "Pet",
-                "multiplier": 0.0005
+                "multiplier": 0.001
+            },
+            {
+                "name": "Titanic Party Tiger",
+                "category": "Pet",
+                "multiplier": 0.0001
             }
         ],
-        "desc_template": "75 rolls for common items + 0.05% chance of Huge Party Squirrel (Stable price: {dep_0_price})."
+        "desc_template": "0.1% chance of Huge Party Squirrel ({dep_0_price}) and 0.01% chance of Titanic Party Tiger ({dep_1_price})."
     },
     "World Cup Gift": {
         "type": "gambling",
@@ -135,5 +140,18 @@
             }
         ],
         "desc_template": "It's only worth using if the saved Charm is worth more than the cost of the Chisel."
+    },
+    "Mini Chest": {
+        "type": "gambling",
+        "category": "Lootboxes",
+        "base_value": 38000,
+        "dependencies": [
+            {
+                "name": "Charm Stone",
+                "category": "Lootboxes",
+                "multiplier": 0.02
+            }
+        ],
+        "desc_template": "Grants 38,000 raw diamonds, common consumables + 2% chance of Charm Stone ({dep_0_price})."
     }
 }
