@@ -11,15 +11,12 @@ except ImportError:
     print("  pip install requests")
     sys.exit(1)
 
-# --- GLOBAL CACHE CONFIGURATION ---
 APP_CACHE = {
-    "items_data": None,      # General mapping of IDs and Categories from the API
-    "stats": {},             # Statistics by item ID (RAP, Median, etc.)
-    "searched_items": []     # List of tuples: (name, category, slug) of searched items
+    "items_data": None,
+    "stats": {},
+    "searched_items": []
 }
 
-# --- DYNAMIC SCRIPT DIRECTORY RESOLUTION ---
-# Ensures the JSON file is always read from the same folder as the .py file
 try:
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 except NameError:
@@ -28,7 +25,6 @@ except NameError:
 BLUEPRINTS_FILE = os.path.join(SCRIPT_DIR, "item_blueprints.json")
 
 def load_blueprints():
-    """Loads the external JSON Blueprints. If missing or corrupted, displays an error and exits."""
     if not os.path.exists(BLUEPRINTS_FILE):
         print("\n❌ CONFIGURATION ERROR: The definition file was not found.")
         print("Please make sure that the 'item_blueprints.json' file is present in the following directory:")
@@ -44,11 +40,9 @@ def load_blueprints():
         print(f"Error details: {e}")
         sys.exit(1)
 
-# Loads the dynamic VIP item configurations from the correct directory
 ITEM_BLUEPRINTS = load_blueprints()
 
 def format_gems(value):
-    """Formats gem values cleanly for professional display"""
     if value == 9999999999:
         return "Infinite (ROI)"
     if abs(value) < 1000:
@@ -60,11 +54,9 @@ def format_gems(value):
     return f"{value/1000000000:.2f}B"
 
 def clear_screen():
-    """Clears the terminal screen"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def calculate_median(lst):
-    """Calculates the mathematical median to eliminate price manipulation spikes"""
     if not lst:
         return 0
     sorted_lst = sorted(lst)
@@ -75,7 +67,6 @@ def calculate_median(lst):
         return (sorted_lst[n // 2 - 1] + sorted_lst[n // 2]) / 2.0
 
 def calculate_history_stats(history_list):
-    """Filters the history and extracts stable, manipulation-resistant metrics"""
     if not history_list:
         return {}
         
@@ -117,7 +108,6 @@ def calculate_history_stats(history_list):
     }
 
 def fetch_ps99rap_data():
-    """Fetches the mapping of item IDs and categories from PS99RAP"""
     url_items = "https://ps99rap.com/api/items"
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
@@ -129,7 +119,6 @@ def fetch_ps99rap_data():
         return {}
 
 def fetch_rap_histories(item_slugs):
-    """Obtains the raw price histories for the given slugs"""
     if not item_slugs:
         return {}
     slugs_string = ",".join(item_slugs)
@@ -144,7 +133,6 @@ def fetch_rap_histories(item_slugs):
         return {}
 
 def find_item_id(items_data, target_name, target_category):
-    """Searches for the exact ID (slug) using names and approximate category aliases"""
     category_aliases = {
         "Charms": ["Charms", "Charm"],
         "Lootboxes": ["Lootboxes", "Lootbox", "Gifts", "Gift"],
@@ -166,7 +154,6 @@ def find_item_id(items_data, target_name, target_category):
     return None
 
 def ensure_item_data_loaded(targets):
-    """Ensures all target items are loaded and cached in memory"""
     global APP_CACHE
     
     if APP_CACHE["items_data"] is None:
@@ -201,7 +188,6 @@ def ensure_item_data_loaded(targets):
     return True, item_to_slug
 
 def get_cached_stable_price(category, name):
-    """Fetches the stable price directly from cache. Returns None if not found."""
     global APP_CACHE
     if APP_CACHE["items_data"]:
         slug = find_item_id(APP_CACHE["items_data"], name, category)
@@ -210,7 +196,6 @@ def get_cached_stable_price(category, name):
     return None
 
 def get_blueprint_dependencies(item_name):
-    """Extracts all dependencies of an item defined in its blueprint"""
     blueprint = ITEM_BLUEPRINTS.get(item_name)
     if not blueprint:
         return []
@@ -221,7 +206,6 @@ def get_blueprint_dependencies(item_name):
     return deps
 
 def calculate_dynamic_blueprint(item_name):
-    """Calcula the EV and formats descriptions based on the blueprint"""
     blueprint = ITEM_BLUEPRINTS.get(item_name)
     if not blueprint:
         return None
@@ -231,8 +215,7 @@ def calculate_dynamic_blueprint(item_name):
     
     for i, dep in enumerate(blueprint["dependencies"]):
         price = get_cached_stable_price(dep["category"], dep["name"])
-        
-        # Abort calculation and return error if a dependency price is missing from cache
+    
         if price is None:
             print(f"\n❌ MARKET ERROR: Could not obtain stable price for dependency '{dep['name']}' ({dep['category']}).")
             return None
@@ -252,10 +235,8 @@ def calculate_dynamic_blueprint(item_name):
     }
 
 def display_item_details(item_name, category, slug):
-    """Displays the detailed spec sheet of the item. Returns False on data loading failure."""
     stats = APP_CACHE["stats"].get(slug)
     
-    # Validates if basic statistical data of the primary item is loaded
     if not stats or "current_rap" not in stats or "stable_price" not in stats:
         clear_screen()
         print("==========================================================================")
@@ -271,11 +252,9 @@ def display_item_details(item_name, category, slug):
     
     is_blueprint = item_name in ITEM_BLUEPRINTS
     
-    # If the item has a blueprint, calculate its dynamic EV
     if is_blueprint:
         analysis = calculate_dynamic_blueprint(item_name)
         if not analysis:
-            # Specific error message has already been printed inside calculate_dynamic_blueprint
             return False
             
         ev = analysis["ev"]
@@ -300,7 +279,7 @@ def display_item_details(item_name, category, slug):
         print("1. The \"Use/Open\" Value (Intrinsic EV):")
         if item_type == "trap_charm":
             print(f"   ├─ Utility Value (EV): {format_gems(0)}")
-            print(f"   └─ Practical Impact: NEGATIVO. Occupying a slot with this item prevents using meta charms and devalues your Huge.")
+            print(f"   └─ Practical Impact: NEGATIVE. Occupying a slot with this item prevents using meta charms and devalues your Huge.")
         elif item_type == "voucher":
             print(f"   ├─ Estimated Daily Return: ~4.00k gems/day")
             print(f"   └─ Practical Impact: Extremely fast Return on Investment (ROI) of ~2.3 days. Permanent passive generation.")
@@ -334,7 +313,7 @@ def display_item_details(item_name, category, slug):
     if is_manipulated:
         dif_pct = ((rap_atual - preco_estavel) / preco_estavel) * 100
         print(f"   ⚠️  MANIPULATION DETECTED: The current RAP is artificially inflated by +{dif_pct:.1f}%!")
-        print(f"       We recommend selling immediately to profit from the manipulation, but listing slightly below the current RAP.")
+        print(f"       Recommended selling immediately to profit from the manipulation, but listing slightly below the current RAP.")
     elif not is_blueprint and preco_estavel > 0 and rap_atual < 0.70 * preco_estavel:
         dif_pct = ((preco_estavel - rap_atual) / preco_estavel) * 100
         print(f"   💸 FLIP OPPORTUNITY: The RAP is {dif_pct:.1f}% BELOW the 30-day stable price.")
@@ -391,7 +370,7 @@ def run_analysis():
     while True:
         clear_screen()
         print("==========================================================================")
-        print("                 🏆 PRO NAVIGATION CENTER - PS99 🏆                      ")
+        print("                       🏆 NAVIGATION CENTER 🏆                           ")
         print("==========================================================================")
         print("  Select a numeric option:\n")
         print("  [1] 🔍 Search Any Item (Dynamic Search)")
@@ -407,19 +386,17 @@ def run_analysis():
             break
             
         elif option == "1":
-            # --- DYNAMIC SEARCH ---
             clear_screen()
             print("==========================================================================")
             print("                       🔍 DYNAMIC ITEM SEARCH                              ")
             print("==========================================================================")
-            print("  Tip: You can search for Huges, Potions, Enchants, etc.")
             query = input("\n👉 Enter the name of the item you want to search: ").strip().lower()
 
             if not query:
                 continue
 
             if APP_CACHE["items_data"] is None:
-                print("\n⏳ Sincronizando banco de dados completo da API...")
+                print("\n⏳ Synchronizing complete API database...")
                 APP_CACHE["items_data"] = fetch_ps99rap_data()
                 if not APP_CACHE["items_data"]:
                     input("\n❌ Error fetching database. Press ENTER to return.")
@@ -460,10 +437,8 @@ def run_analysis():
                     input("Press ENTER to return.")
                     continue
 
-                # Displays the unified Spec Sheet
                 display_success = display_item_details(selected_name, selected_cat, selected_slug)
 
-                # Only registers in history if market stats were loaded and printed successfully
                 if display_success:
                     hist_item = (selected_name, selected_cat, selected_slug)
                     if hist_item not in APP_CACHE["searched_items"]:
@@ -472,7 +447,6 @@ def run_analysis():
                 input("\nPress ENTER to return to the main menu.")
             
         elif option == "2":
-            # --- INTERACTIVE QUERY HISTORY ---
             while True:
                 clear_screen()
                 print("==========================================================================")
@@ -496,7 +470,6 @@ def run_analysis():
                         stable_price = st.get("stable_price")
                         current_rap = st.get("current_rap")
                         
-                        # Fallback check if basic stats fail
                         if stable_price is None or current_rap is None:
                             print(f"  [{idx:<4}] | {name:<20} | {'ERROR':<11} | {'ERROR':<11} | [EXPIRED DATA]")
                             continue
