@@ -9,9 +9,10 @@ By interfacing with the `ps99rap.com` API, this script analyzes real-time market
 ## 📊 How It Works
 
 *   **🔍 Universal Dynamic Lookup:** Search and analyze market stats (Current RAP, 24h High/Low, and daily variation) for any tradeable item in Pet Simulator 99.
-*   **⚠️ Manipulation Sentry:** Automatically calculates a mathematical 30-day median to identify whether an item's current RAP is artificially inflated (manipulated) or safe to trade.
+*   **📈 Multi-Trend Analysis & Manipulation Sentry:** Calculates medians across 3 timeframes (24h, 7D, and 30D). It uses the **7-Day Median** as the "golden standard" to protect you from short-term clan manipulation while adapting perfectly to the game's weekly update cycle.
 *   **👑 Expected Value (EV) Engine:** Uses modular rules in `item_blueprints.json` to calculate if the actual worth of possible drop rates (keys, lootboxes, gifts) exceeds the market selling price.
-*   **🕒 Session History & Offline Cache:** Keeps a local, fast-access history of your searched items during your active session. Re-examining a spec sheet is instant and requires zero redundant network calls.
+*   **💰 Dynamic Pricing Tiers:** Stop guessing what to charge. The script suggests tailored Plaza booth prices (**Quick Sell, Fair Value, and Max Profit**) depending on the item's stable price and whether it's currently being manipulated.
+*   **🕒 Interactive Session History:** Keeps a local, fast-access history of your searched items during your active session. You can re-examine a spec sheet instantly using the index number, requiring zero redundant network calls.
 
 ---
 
