@@ -20,7 +20,7 @@
     "World Cup Gift": {
         "type": "gambling",
         "category": "Lootboxes",
-        "base_value": 15000,
+        "base_value": 0,
         "dependencies": [
             {
                 "name": "Huge Soccerball Goat",
@@ -28,7 +28,7 @@
                 "multiplier": 0.0005
             }
         ],
-        "desc_template": "4 rolls of items/boosters + 0.05% chance of Huge Soccerball Goat (Stable price: {dep_0_price})."
+        "desc_template": "4 Rolls + 0.05% Huge Goat ({dep_0_price})."
     },
     "Charm Stone": {
         "type": "gambling",
